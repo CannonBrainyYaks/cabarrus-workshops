@@ -11,9 +11,9 @@
 <p id="loginStatus" class="status" role="status"></p></section>
 <section id="dashboard" class="hidden">
 <div class="actions"><button id="refresh" class="alt">Refresh roster</button><button id="csv">Export CSV</button><button id="signout" class="alt">Sign out</button></div>
-<div class="stats"><div class="stat">Registrations<strong id="total">0</strong></div><div class="stat">Email opt-ins<strong id="optins">0</strong></div><div class="stat">Media permissions<strong id="media">0</strong></div></div>
+<div class="stats"><div class="stat">Registrations<strong id="total">0</strong></div></div>
 <p class="notice">The roster is private. Treat downloaded CSV files as confidential: they contain names, emails, and waiver information.</p>
-<section class="panel"><h2>Signed workshop waivers</h2><div class="tablewrap"><table><thead><tr><th>Participant</th><th>Email</th><th>Date</th><th>Project</th><th>Signed</th><th>Media</th><th>Email updates</th><th>Guardian</th></tr></thead><tbody id="rows"></tbody></table></div><p id="empty" class="muted">No registrations yet.</p><div class="actions"><button id="more" class="alt hidden">Load more</button></div></section></section>
+<section class="panel"><h2>Signed workshop waivers</h2><div class="tablewrap"><table><thead><tr><th>Participant</th><th>Email</th><th>Date</th><th>Project</th><th>Signed</th><th>Guardian</th></tr></thead><tbody id="rows"></tbody></table></div><p id="empty" class="muted">No registrations yet.</p><div class="actions"><button id="more" class="alt hidden">Load more</button></div></section></section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.95.0/dist/umd/supabase.min.js"></script>
 <script>
@@ -37,10 +37,9 @@ const response=await fetch(API+"?offset="+offset,{headers:{"Authorization":"Bear
 const body=await response.json();
 if(!response.ok){if(response.status===401||response.status===403){showLogin();message(body.error||"Access denied");}throw Error(body.error||"Could not load attendee roster");}
 total=body.total;all.push(...body.attendees);offset=all.length;
-for(const a of body.attendees){const tr=document.createElement("tr"),p=a.participants||{};cell(tr,p.full_name);cell(tr,p.email);cell(tr,a.workshop_date);cell(tr,a.workshop_type);cell(tr,new Date(a.signed_at).toLocaleString());cell(tr,a.media_consent?"Yes":"No");cell(tr,a.marketing_consent?"Yes":"No");cell(tr,a.is_minor?a.guardian_name||"Required":"—");$("rows").appendChild(tr);}
+for(const a of body.attendees){const tr=document.createElement("tr"),p=a.participants||{};cell(tr,p.full_name);cell(tr,p.email);cell(tr,a.workshop_date);cell(tr,a.workshop_type);cell(tr,new Date(a.signed_at).toLocaleString());cell(tr,a.is_minor?a.guardian_name||"Required":"—");$("rows").appendChild(tr);}
 $("total").textContent=String(total);
-$("optins").textContent=String(all.filter(a=>a.marketing_consent).length)+(all.length<total?" loaded":"");
-$("media").textContent=String(all.filter(a=>a.media_consent).length)+(all.length<total?" loaded":"");
+
 $("more").classList.toggle("hidden",offset>=total);$("empty").style.display=total?"none":"block";
 }
 $("send").onclick=async()=>{if(!auth)return message("Sign-in library couldn't load.");const email=$("email").value.trim();if(!email)return message("Enter your email.");$("send").disabled=true;try{const{error}=await auth.auth.signInWithOtp({email,options:{shouldCreateUser:true}});if(error)throw error;$("emailBlock").classList.add("hidden");$("codeBlock").classList.remove("hidden");message("Check your inbox for the sign-in code.");}catch(e){const msg=String(e.message||"");message(/rate limit|429|over_email_send_rate_limit/i.test(msg)?"Supabase has reached its email sending limit. Please try later. We are setting up a more reliable email provider for admin sign-in.":msg)}finally{$("send").disabled=false}};
