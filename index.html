@@ -57,9 +57,18 @@ button:hover:not(:disabled){filter:brightness(1.1)}button:disabled{opacity:.6;cu
 .footer{text-align:center;color:#b79c7c;font:.83rem system-ui,sans-serif;margin-top:36px}
 @media(max-width:850px){.form-layout{grid-template-columns:1fr}.hero{min-height:380px}.hero:before{background:linear-gradient(110deg,#160e0bc0,#5a33191c 70%,#130b08a0)}}
 @media(max-width:520px){.topline{font-size:.64rem;letter-spacing:.07em;gap:8px}.hero{min-height:395px}.hero-content{padding:35px 18px 64px}.hero:before{background:linear-gradient(110deg,#160e0bc0,#5a33191c 70%,#130b08a0)}.hero p{font-size:1rem;max-width:310px}.card{padding:17px}.grid{grid-template-columns:1fr}.brand-strip{font-size:.72rem}.brand-strip strong{font-size:1.2rem}}
+
+/* Keep the real workshop photo sharp: no filter, blur or overlay on the image. */
+.hero{display:block;min-height:0}
+.hero-layout{max-width:1150px;margin:0 auto;padding:12px 24px 24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,390px);gap:32px;align-items:center}
+.hero-content{width:auto;margin:0;padding:28px 0 38px}
+.hero-photo{margin:0;position:relative;z-index:1;max-width:390px;width:100%;justify-self:end;border:1px solid #b07d46;border-radius:8px;overflow:hidden;box-shadow:0 16px 35px #06030388}
+.hero-photo img{display:block;width:100%;height:auto;object-fit:contain;filter:none;transform:none}
+@media(max-width:800px){.hero-layout{grid-template-columns:minmax(0,1fr) minmax(200px,300px);gap:18px;padding:12px 18px 24px}.hero-photo{max-width:300px}.hero-content{padding:24px 0}}
+@media(max-width:600px){.hero-layout{grid-template-columns:1fr;gap:4px}.hero-content{padding:24px 0 8px}.hero-photo{width:min(340px,100%);max-width:340px;justify-self:center;margin-bottom:10px}.hero:after{height:20px}.hero h1{font-size:clamp(2.5rem,10vw,4rem)}}
 </style></head><body>
 <div class="topline">JOIN US · CABARRUS CREATIONS LLC</div>
-<header class="hero"><div class="hero-content"><div class="eyebrow">Cabarrus Creations LLC · Woodcarving Workshops</div><h1>Hamilton<br>Workshop Waiver</h1><div class="hero-rule" aria-hidden="true"></div><p class="date">Hamilton Woodworking Show · November 13–15, 2026</p><p>Join us for hands-on woodcarving at the Hamilton Woodworking Show. Complete your registration and waiver before you start carving.</p></div></header>
+<header class="hero"><div class="hero-layout"><div class="hero-content"><div class="eyebrow">Cabarrus Creations LLC · Woodcarving Workshops</div><h1>Hamilton<br>Workshop Waiver</h1><div class="hero-rule" aria-hidden="true"></div><p class="date">Hamilton Woodworking Show · November 13–15, 2026</p><p>Join us for hands-on woodcarving at the Hamilton Woodworking Show. Complete your registration and waiver before you start carving.</p></div><figure class="hero-photo"><img src="assets/hamilton-hero-photo.webp" alt="Hand-carved wooden spoons, candle holder, Kutzall carving tools, and wood shavings on a workshop bench" width="520" height="650" loading="eager" fetchpriority="high"></figure></div></header>
 <div class="brand-strip">PROUDLY FEATURING KUTZALL CARVING TOOLS</div>
 <main>
 <div id="status" class="notice" role="status">Checking registration availability…</div>
