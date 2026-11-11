@@ -33,4 +33,10 @@
 </section><button type="button" disabled>Signature collection opens after waiver approval</button></form>
 <p class="foot">Hamilton Woodworking Show · Workshop with Leigh Northrup · Cabarrus Creations LLC</p>
 </main>
-</body></html>
+<script>
+const notice=document.querySelector(".notice");
+fetch("https://zsduepkuqukltjmvqjyi.supabase.co/functions/v1/hamilton-registration",{cache:"no-store"})
+.then(async response=>{if(!response.ok)throw new Error("Unavailable");return response.json();})
+.then(data=>{notice.innerHTML="<strong>TinkerHub connected — registration closed</strong>"+(data.registration_open?"The waiver has been approved, but signature submissions remain disabled.":"The waiver is awaiting legal approval.")+" No information entered here is saved.";})
+.catch(()=>{notice.innerHTML="<strong>Preview only — not accepting signatures</strong>Registration status could not be checked. No information entered here is saved.";});
+</script></body></html>
