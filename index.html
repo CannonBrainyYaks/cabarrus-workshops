@@ -76,7 +76,6 @@ button:hover:not(:disabled){filter:brightness(1.1)}button:disabled{opacity:.6;cu
 <form id="form" hidden><div class="form-layout">
 <div class="column">
 <section class="card"><h2><span class="sym" aria-hidden="true">♙</span> Participant Information</h2><p class="muted">Tell us a little about yourself.</p><div class="grid"><div class="field wide"><label for="name">Full legal name *</label><input id="name" name="name" autocomplete="name" required minlength="2" maxlength="200" placeholder="Enter your full name"></div><div class="field wide"><label for="email">Email address *</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="320" placeholder="you@example.com"></div></div></section>
-<section class="card"><h2><span class="sym" aria-hidden="true">▦</span> Workshop Details</h2><p class="muted">Choose your project and workshop date.</p><div class="grid"><div class="field wide"><label for="workshop">Workshop selection *</label><select id="workshop" required><option value="">Select a workshop…</option><option>Swedish Butter Knife</option><option>Wooden Spoon</option><option>Candle Holder</option></select></div><div class="field wide"><label for="workshopDate">Workshop date *</label><select id="workshopDate" required><option value="">Select a date…</option><option value="2026-11-13">Friday, November 13</option><option value="2026-11-14">Saturday, November 14</option><option value="2026-11-15">Sunday, November 15</option></select></div></div><div class="brand-note"><em>We’ll be working with Kutzall carving and shaping tools.</em></div></section>
 <section class="card"><h2><span class="sym" aria-hidden="true">♟</span> Guardian Information</h2><label class="check"><input type="checkbox" id="minor"><span>The participant is under 18 years old.</span></label><div id="guardianFields" class="grid" hidden><div class="field wide"><label for="guardianName">Parent / guardian full name *</label><input id="guardianName" maxlength="200"></div><div class="field wide"><label for="guardianEmail">Parent / guardian email *</label><input id="guardianEmail" type="email" maxlength="320"></div><div class="field wide"><label for="guardianSignature">Parent / guardian electronic signature *</label><input id="guardianSignature" maxlength="200" placeholder="Guardian types their own name"></div><p class="muted wide">The parent or legal guardian must be present to provide their own signature.</p></div></section>
 </div>
 <div class="column">
@@ -120,7 +119,7 @@ form.addEventListener("submit",async e=>{
  const minor=document.querySelector("#minor").checked;
  if(minor&&document.querySelector("#guardianName").value.trim().toLocaleLowerCase()!==document.querySelector("#guardianSignature").value.trim().toLocaleLowerCase()){error.textContent="The guardian's name and signature must match.";error.hidden=false;return;}
  const mediaConsent=document.querySelector("#mediaConsent").checked;
- const payload={name,email:document.querySelector("#email").value.trim(),signature,workshop:document.querySelector("#workshop").value,workshopDate:document.querySelector("#workshopDate").value,agree:document.querySelector("#agree").checked,waiverVersion,mediaConsent,marketingConsent:document.querySelector("#marketingConsent").checked,isMinor:minor,guardianName:document.querySelector("#guardianName").value.trim(),guardianEmail:document.querySelector("#guardianEmail").value.trim(),guardianSignature:document.querySelector("#guardianSignature").value.trim(),website:document.querySelector("#website").value};
+ const payload={name,email:document.querySelector("#email").value.trim(),signature,agree:document.querySelector("#agree").checked,waiverVersion,mediaConsent,marketingConsent:document.querySelector("#marketingConsent").checked,isMinor:minor,guardianName:document.querySelector("#guardianName").value.trim(),guardianEmail:document.querySelector("#guardianEmail").value.trim(),guardianSignature:document.querySelector("#guardianSignature").value.trim(),website:document.querySelector("#website").value};
  const submit=document.querySelector("#submit");submit.disabled=true;submit.textContent="Saving your waiver…";
  try{
   const response=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
@@ -129,7 +128,7 @@ form.addEventListener("submit",async e=>{
   document.querySelector("#receipt").textContent="Confirmation: "+body.receipt+" · Signed: "+new Date(body.signedAt).toLocaleString();
   form.hidden=true;success.hidden=false;window.scrollTo(0,0);
  }catch(err){error.textContent=err.message||"Could not save waiver. Please see Leigh.";error.hidden=false;}
- finally{submit.disabled=false;submit.textContent="Sign waiver & register";}
+ finally{submit.disabled=false;submit.textContent="Sign waiver";}
 });
 load();
 </script></body></html>
